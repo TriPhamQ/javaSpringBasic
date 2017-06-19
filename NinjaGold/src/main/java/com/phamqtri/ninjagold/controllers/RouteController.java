@@ -1,8 +1,11 @@
 package com.phamqtri.ninjagold.controllers;
 
+import java.util.Arrays;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +24,7 @@ public class RouteController {
 		return "index";
 	}
 	@RequestMapping(path="/", method=RequestMethod.POST)
-	public String raid(@RequestParam(value="place") String place, HttpSession session) {
+	public String raid(@RequestParam(value="place") String place, HttpSession session, Model model) {
 		int raidLoot = 0;
 		switch (place) {
 			case "farm":
@@ -56,7 +59,10 @@ public class RouteController {
 			addHistory[0] = place;
 			addHistory[1] = session.getAttribute("gold").toString();
 			this.lootHistory.add(addHistory);
-			System.out.println(this.lootHistory.getLootHistory());
+			for (String[] loot : this.lootHistory.getLootHistory()) {
+				System.out.println(Arrays.toString(loot));
+			}
+			model.addAttribute("history", this.lootHistory.getLootHistory());
 			session.setAttribute("history", this.lootHistory.getLootHistory());
 		}
 		return "index";

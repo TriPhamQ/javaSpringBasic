@@ -32,6 +32,9 @@
 				<p style="color: red">you entered a <%= session.getAttribute("place") %> and lost <%= session.getAttribute("loot") %></p>
 			<% } %>
 		<% } %>
+		<c:forEach items="${history}" var="history">
+		    <td><c:out value="${history}"/></td>
+		</c:forEach>
 		<%= session.getAttribute("history") %>
 	</body>
 </html>
