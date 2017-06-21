@@ -34,16 +34,12 @@ public class LanguageController {
 	}
 	
 	@PostMapping("")
-    public String createLanguage(@Valid LanguageModel language, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String createLanguage(@ModelAttribute("language") @Valid LanguageModel language, BindingResult result, RedirectAttributes redirectAttributes, Model model) {
         if (result.hasErrors()) {
         	redirectAttributes.addFlashAttribute("language", language);
-        	for(FieldError e : result.getFieldErrors()) {
-        		redirectAttributes.addFlashAttribute("example", e.getDefaultMessage());
-        		System.out.println(e.getDefaultMessage());
-        	}
-        		
-        	System.out.println("HERE ERROR" + result.getFieldErrors());
-            return "redirect:/languages";
+        	ArrayList<LanguageModel> languages = languageService.allLanguages();
+    		model.addAttribute("languages", languages);
+            return "index";
         }
         else{
         	languageService.addLanguage(language);
@@ -64,9 +60,8 @@ public class LanguageController {
     }
 	
 	@PostMapping("/edit/{id}")
-    public String updateLanguage(@PathVariable("id") int id, @Valid LanguageModel language, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String updateLanguage(@PathVariable("id") int id, @ModelAttribute("language") @Valid LanguageModel language, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-        	redirectAttributes.addFlashAttribute("language", language);
             return "editLanguage";
         }
         else {
