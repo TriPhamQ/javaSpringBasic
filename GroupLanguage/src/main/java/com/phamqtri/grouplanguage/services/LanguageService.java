@@ -18,4 +18,29 @@ public class LanguageService {
 	public ArrayList<LanguageModel> allLanguages() {
 		return languages;
 	}
+	
+	public LanguageModel findLanguageByIndex(int index) {
+    	if (index < languages.size()) {
+			return languages.get(index);
+		}
+    	else {
+    		return null;
+    	}
+    }
+	
+	public void addLanguage(LanguageModel language) {
+		languages.add(language);
+	}
+	
+	public void updateLanguage(int id, LanguageModel language) {
+        if (id < languages.size()){
+            languages.set(id, language);
+        }
+    }
+	
+	public void destroyLanguage(int id) {
+        if (id < languages.size()){
+            languages.remove(id);
+        }
+    }
 }

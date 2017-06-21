@@ -4,22 +4,15 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Languages</title>
+		<title>Edit Book</title>
 	</head>
 	<body>
 		<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-		<table>
-		<c:forEach items="${languages}" var="language" varStatus="loop">
-		    <tr>      
-		        <td><c:out value="${language.name}"/></td>
-		        <td><c:out value="${language.creator}"/></td>
-		        <td><c:out value="${language.version}"/></td>
-		        <td><a href="/languages/delete/${loop.index}">Delete</a> <a href="/languages/edit/${loop.index}">Edit</a></td>
-		    </tr>
-		</c:forEach>
-		</table>
+		<c:out value="${language.name}"/>
+		<c:out value="${language.creator}"/>
+		<c:out value="${language.version}"/>
 		<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-		<form:form method="POST" action="/languages" modelAttribute="language">
+		<form:form method="POST" action="/languages/edit/${id}" modelAttribute="language">
 			<div>
 			    <form:label path="name">Name
 			    <form:errors path="name"/>
