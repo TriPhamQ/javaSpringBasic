@@ -32,8 +32,8 @@ public class BooksController {
     }
     
     @RequestMapping("/books/{index}")
-    public String findBookByIndex(@PathVariable("index") int index, Model model) {
-    	Book book = booksService.findBookByIndex(index);
+    public String findBookByIndex(@PathVariable("index") long id, Model model) {
+    	Book book = booksService.findBookByIndex(id);
     	model.addAttribute("book", book);
     	return "book";
     }
@@ -53,5 +53,11 @@ public class BooksController {
         	booksService.addBook(book);
             return "redirect:/books";
         }
+    }
+    
+    @RequestMapping(value="/books/delete/{id}")
+    public String destroyBook(@PathVariable("id") long id) {
+        booksService.destroyBook(id);
+        return "redirect:/books";
     }
 }

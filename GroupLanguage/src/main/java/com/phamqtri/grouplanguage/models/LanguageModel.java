@@ -1,7 +1,9 @@
 package com.phamqtri.grouplanguage.models;
 
+import javax.persistence.Entity;
 import javax.validation.constraints.Size;
 
+@Entity
 public class LanguageModel {
 	@Size(min=3, max=20)
 	private String name;

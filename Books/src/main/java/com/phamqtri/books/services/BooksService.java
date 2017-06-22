@@ -1,12 +1,12 @@
 package com.phamqtri.books.services;
 
-import java.awt.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.stereotype.Service;
 
 import com.phamqtri.books.models.Book;
+import com.phamqtri.books.repositories.BookRepository;
 
 @Service
 public class BooksService {
@@ -17,21 +17,27 @@ public class BooksService {
             new Book("Don Quixote", "Life of a retired country gentleman", "english", 150),
             new Book("The Odyssey", "Ancient Greek epic poem", "english", 475)
             ));
+	private BookRepository bookRepository;
+	
+	public BooksService(BookRepository bookRepository) {
+		this.bookRepository = bookRepository;
+	}
     
     public ArrayList<Book> allBooks() {
-        return books;
+        return bookRepository.findAll();
     }
     
-    public Book findBookByIndex(int index) {
-    	if (index < books.size()) {
-			return books.get(index);
-		}
-    	else {
-    		return null;
-    	}
+    public Book findBookByIndex(long id) {
+    	 return bookRepository.findOne(id);
     }
     
     public void addBook(Book book) {
-        books.add(book);
+        bookRepository.save(book);
+    }
+    
+    public void destroyBook(long id) {
+        if (bookRepository.findOne(id) != null){
+            bookRepository.delete(id);
+        }
     }
 }
