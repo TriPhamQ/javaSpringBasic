@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,7 +47,7 @@ public class LanguageController {
     }
 	
 	@RequestMapping("/edit/{id}")
-    public String editLanguage(@PathVariable("id") int id, Model model, @ModelAttribute("language") LanguageModel language) {
+    public String editLanguage(@PathVariable("id") long id, Model model, @ModelAttribute("language") LanguageModel language) {
         LanguageModel languageModel = languageService.findLanguageByIndex(id);
         if (languageModel != null){
             model.addAttribute("language", languageModel);
@@ -60,7 +59,7 @@ public class LanguageController {
     }
 	
 	@PostMapping("/edit/{id}")
-    public String updateLanguage(@PathVariable("id") int id, @ModelAttribute("language") @Valid LanguageModel language, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String updateLanguage(@PathVariable("id") long id, @ModelAttribute("language") @Valid LanguageModel language, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "editLanguage";
         }
@@ -71,8 +70,20 @@ public class LanguageController {
     }
 	
 	@RequestMapping(value="/delete/{id}")
-    public String destroyBook(@PathVariable("id") int id) {
+    public String destroyBook(@PathVariable("id") long id) {
         languageService.destroyLanguage(id);
         return "redirect:/languages";
+    }
+	
+	@RequestMapping("/{id}")
+    public String showLanguage(@PathVariable("id") long id, Model model) {
+        LanguageModel languageModel = languageService.findLanguageByIndex(id);
+        if (languageModel != null){
+            model.addAttribute("language", languageModel);
+            return "showLanguage";
+        }
+        else {
+            return "redirect:/languages";
+        }
     }
 }

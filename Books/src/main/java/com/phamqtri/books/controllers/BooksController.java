@@ -39,15 +39,19 @@ public class BooksController {
     }
     
     @RequestMapping("/books/new")
-    public String newBook(@ModelAttribute("book") Book book) {
-    	return "newBook";
+    public String newBook(Model model) {
+        if (!model.containsAttribute("book")) {
+            model.addAttribute("book", new Book());
+        }
+        return "newBook";
     }
     
     @PostMapping("/books/new")
-    public String createBook(@Valid Book book, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String createBook(@Valid @ModelAttribute("book") Book book, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
+        	redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.book", result);
         	redirectAttributes.addFlashAttribute("book", book);
-            return "newBook";
+        	return "redirect:/books/new";
         }
         else{
         	booksService.addBook(book);

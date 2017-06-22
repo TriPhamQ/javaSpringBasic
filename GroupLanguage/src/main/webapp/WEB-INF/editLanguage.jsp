@@ -12,7 +12,7 @@
 		<c:out value="${language.creator}"/>
 		<c:out value="${language.version}"/>
 		<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-		<form:form method="POST" action="/languages/edit/${id}" modelAttribute="language">
+		<form:form method="POST" action="/languages/edit/${language.id}" modelAttribute="language">
 			<div>
 			    <form:label path="name">Name
 			    <form:errors path="name"/>
@@ -27,6 +27,9 @@
 			    <form:label path="version">Version
 			    <form:errors path="version"/>
 			    <form:input path="version"/></form:label>
+		    </div>
+		    <div>
+			    <form:hidden path="created_at"></form:hidden>
 		    </div>
 		    <div>
 		    	<input type="submit" value="Submit"/>

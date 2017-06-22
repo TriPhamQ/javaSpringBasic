@@ -6,6 +6,7 @@ import java.util.Arrays;
 import org.springframework.stereotype.Service;
 
 import com.phamqtri.grouplanguage.models.LanguageModel;
+import com.phamqtri.grouplanguage.repositories.LanguageRepository;
 
 @Service
 public class LanguageService {
@@ -14,33 +15,31 @@ public class LanguageService {
 				new LanguageModel("Python", "Guido van Rossum", "3.6"),
 				new LanguageModel("JavaScript", "Brendan Eich", "1.9.5.23.24.7.2")
 			));
+	private LanguageRepository languageRepository;
 	
-	public ArrayList<LanguageModel> allLanguages() {
-		return languages;
+	public LanguageService(LanguageRepository languageRepository) {
+		this.languageRepository = languageRepository;
 	}
 	
-	public LanguageModel findLanguageByIndex(int index) {
-    	if (index < languages.size()) {
-			return languages.get(index);
-		}
-    	else {
-    		return null;
-    	}
+	public ArrayList<LanguageModel> allLanguages() {
+		return this.languageRepository.findAll();
+	}
+	
+	public LanguageModel findLanguageByIndex(long id) {
+    	return this.languageRepository.findOne(id);
     }
 	
 	public void addLanguage(LanguageModel language) {
-		languages.add(language);
+		this.languageRepository.save(language);
 	}
 	
-	public void updateLanguage(int id, LanguageModel language) {
-        if (id < languages.size()){
-            languages.set(id, language);
-        }
+	public void updateLanguage(long id, LanguageModel language) {
+		this.languageRepository.save(language);
     }
 	
-	public void destroyLanguage(int id) {
-        if (id < languages.size()){
-            languages.remove(id);
-        }
+	public void destroyLanguage(long id) {
+        if (this.languageRepository.findOne(id) != null) {
+			this.languageRepository.delete(id);
+		}
     }
 }
